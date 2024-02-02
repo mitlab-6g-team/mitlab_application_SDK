@@ -34,19 +34,16 @@ def send_closed_loop(data):
     print(json.dumps(payload, indent=2))
 
     try:
-        if data["closed_loop"]["value"] >= 3:
-            # Make the POST request
-            response = requests.post(closed_loop_endpoint, json=payload)
-            access_data = response.json()
-            print("response_payload:", access_data)
+        # Make the POST request
+        response = requests.post(closed_loop_endpoint, json=payload)
+        access_data = response.json()
+        print("response_payload:", access_data)
 
-            # Check the response status code
-            if response.status_code == 200:
-                print("status:", response.status_code, "<closed_loop_data>/<ClosedLoopHandler>/<closed_loop_data_receiving>")
-            else:
-                print("ERROR", response.status_code, "<closed_loop_data_receiving>")
+        # Check the response status code
+        if response.status_code == 200:
+            print("status:", response.status_code, "<closed_loop_data>/<ClosedLoopHandler>/<closed_loop_data_receiving>")
         else:
-            print("close_loop time is less than 3 sec. Skipping the POST request.")
+            print("ERROR", response.status_code, "<closed_loop_data_receiving>")
 
     except Exception as e:
         print(f"Error during registration: {e}")
