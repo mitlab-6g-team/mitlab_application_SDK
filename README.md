@@ -7,7 +7,7 @@
 1. download package:
 
     ```bash
-   pip install git+https://github.com/mitlab-6g-team/mitlab_application_SDK.git
+   pip install AppAuthN
     
 3. 修改 AppAuthN/config.json 檔案：
 
