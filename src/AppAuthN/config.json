@@ -1,19 +1,19 @@
 {
-  "api_url": "http://140.118.122.159:4444",
+  "api_url": "http://140.118.122.159:30306",
   "register": {
     "application_token": "1234",
     "position_uid": "6543",
     "inference_client_uid": "5678"
   },
   "closed_loop": {
-    "application_uid": "xyz",
-    "position_uid": "abcdefg",
+    "application_uid": "1d1e5f06-5302-459a-94c6-cb895c848626",
+    "position_uid": "fb3fc88c-8f61-456e-8f78-073dfc1e57f1",
     "packet_uid": "1112",
     "inference_client_uid": "roomA-1",
     "value": 0
   },
   "certificate_receiver": {
-    "status": "success",
+    "status": "error",
     "certificate": "06ba5b9c05946d2b614e6cec09c82aff5a33d0c810ae56ac1ab14c160632fe011705572126"
   },
   "result_receiver": {
@@ -21,9 +21,9 @@
     "value": "[[ 6.6106836e+03 -4.9940181e-01  1.7413706e-01]]"
   },
   "raw_data": {
-    "application_uid": "xyz",
-    "position_uid": "abcdefg",
-    "packet_uid": "1118",
+    "application_uid": "1d1e5f06-5302-459a-94c6-cb895c848626",
+    "position_uid": "fb3fc88c-8f61-456e-8f78-073dfc1e57f1",
+    "packet_uid": "1121",
     "inference_client_uid": "roomA-1",
     "value": [
       [
