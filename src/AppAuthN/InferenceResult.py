@@ -1,6 +1,6 @@
 import requests, json
-from CloseLoopCounter import global_counter, send_closed_loop
-from CertificationReceiver import data_mgt, check_identity
+from AppAuthN.CloseLoopCounter import global_counter, send_closed_loop
+from AppAuthN.CertificationReceiver import data_mgt, check_identity
 
 ## send rawdata to inference layer for receiving inference result
 def send_rawdata(rawdata):
@@ -10,7 +10,7 @@ def send_rawdata(rawdata):
     data["raw_data"]["position_uid"] = rawdata["position_uid"]
     data["raw_data"]["inference_client_uid"] = rawdata["inference_client_uid"]
     data["raw_data"]["value"] = rawdata["value"]
-    print("merge_data", data)
+    # print("merge_data", data)
 
     # API endpoint for inference_service
     inference_service_endpoint = f"""{data["api_url"]}/inference-service-{data["raw_data"]["position_uid"]}"""
@@ -27,8 +27,8 @@ def send_rawdata(rawdata):
     data["closed_loop"]["position_uid"] = data["raw_data"]["position_uid"]
     data["closed_loop"]["packet_uid"] = data["raw_data"]["packet_uid"]
     data["closed_loop"]["inference_client_uid"] = data["raw_data"]["inference_client_uid"]
-    print("Data to be sent:")
-    print(json.dumps(payload, indent=2))
+    # print("Data to be sent:")
+    # print(json.dumps(payload, indent=2))
 
     try:
         # Make the POST request
@@ -36,7 +36,7 @@ def send_rawdata(rawdata):
         response = requests.post(inference_service_endpoint, json=payload)
         # start a timer
         access_data = response.json()
-        print("response_payload:", access_data)
+        print("inference_result:", access_data)
 
         # Check the response status code
         if response.status_code == 200:

@@ -15,7 +15,7 @@ def generate_hash(data):
     # Create a hash object using SHA-256 (you can choose a different algorithm)
     # Get the hexadecimal representation of the hash
     hash_value = hashlib.sha256(combined_string.encode()).hexdigest()
-    print("local_hash_value:", hash_value)
+    #print("local_hash_value:", hash_value)
     return hash_value
 
 
@@ -26,7 +26,7 @@ class Data_mgt:
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         # 构建文件路径
         self.json_file_path = os.path.join(self.script_dir, file_name)
-        print(self.json_file_path)
+        # print(self.json_file_path)
 
     def read_json(self):
         with open(self.json_file_path, "r") as json_file:
@@ -54,8 +54,8 @@ def send_register_request(register_data):
         "inference_client_uid": data["register"]["inference_client_uid"],
         "position_uid": data["register"]["position_uid"]
     }
-    print("Data to be sent:")
-    print(json.dumps(payload, indent=2))
+    # print("Data to be sent:")
+    # print(json.dumps(payload, indent=2))
 
     try:
         # Make the POST request
@@ -84,12 +84,13 @@ def check_identity(data):
         if data["certificate_receiver"]["certificate"][:64] == generate_hash(data):
             if int(data["certificate_receiver"]["certificate"][64:]) >=  int(time.time()):
                 print("certificate is vaild")
-                print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
+                #print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
             else:
                 print("Timeout, certificate is invaild")
                 data["certificate_receiver"]["status"] = "error"
-                print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
-                data = send_register_request(data)
+                #print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
+                #要測試過期後可不可以自己重新登入
+                send_register_request(data["register"])
         else:
             print("Invaild hash, certificate is invaild")
             data["certificate_receiver"]["status"] = "error"

@@ -7,8 +7,8 @@ class Counter:
 
     def get_value(self):
         int(time.time())-self.value
-        print("now.time", int(time.time()), "before.time", self.value)
-        print(int(time.time())-self.value)
+        # print("now.time", int(time.time()), "before.time", self.value)
+        # print(int(time.time())-self.value)
         return (int(time.time())-self.value)
 
     def reset(self):
@@ -30,8 +30,8 @@ def send_closed_loop(data):
         "inference_client_uid": data["closed_loop"]["inference_client_uid"],
         "value": data["closed_loop"]["value"]
     }
-    print("Data to be sent:")
-    print(json.dumps(payload, indent=2))
+    # print("Data to be sent:")
+    # print(json.dumps(payload, indent=2))
 
     try:
         # Make the POST request
