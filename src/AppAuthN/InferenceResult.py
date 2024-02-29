@@ -3,7 +3,15 @@ from CloseLoopCounter import global_counter, send_closed_loop
 from CertificationReceiver import data_mgt, check_identity
 
 ## send rawdata to inference layer for receiving inference result
-def send_rawdata(data):
+def send_rawdata(rawdata):
+    data = data_mgt.read_json()
+    check_identity(data)
+    data["raw_data"]["application_uid"] = rawdata["application_uid"]
+    data["raw_data"]["position_uid"] = rawdata["position_uid"]
+    data["raw_data"]["inference_client_uid"] = rawdata["inference_client_uid"]
+    data["raw_data"]["value"] = rawdata["value"]
+    print("merge_data", data)
+
     # API endpoint for inference_service
     inference_service_endpoint = f"""{data["api_url"]}/inference-service-{data["raw_data"]["position_uid"]}"""
 
@@ -17,6 +25,7 @@ def send_rawdata(data):
     }
     data["closed_loop"]["application_uid"] = data["raw_data"]["application_uid"]
     data["closed_loop"]["position_uid"] = data["raw_data"]["position_uid"]
+    data["closed_loop"]["packet_uid"] = data["raw_data"]["packet_uid"]
     data["closed_loop"]["inference_client_uid"] = data["raw_data"]["inference_client_uid"]
     print("Data to be sent:")
     print(json.dumps(payload, indent=2))
@@ -41,12 +50,5 @@ def send_rawdata(data):
 
     except Exception as e:
         print(f"Error during registration: {e}")
-    return data
 
-
-if __name__ == "__main__":
-    data = data_mgt.read_json()
-    print(data)
-    data = check_identity(data)
-    receive_result = send_rawdata(data)
-    data_mgt.write_json(receive_result)
+    data_mgt.write_json(data)

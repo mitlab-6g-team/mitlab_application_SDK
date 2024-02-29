@@ -2,6 +2,10 @@ import hashlib
 import json, os, requests
 import time
 
+def kongapi(api_url):
+    data = data_mgt.read_json()
+    data["api_url"] = api_url
+    data_mgt.write_json(data)
 
 ## 驗證certificate.hash
 def generate_hash(data):
@@ -35,7 +39,12 @@ class Data_mgt:
 
 
 ## interact with inference_layer
-def send_register_request(data):
+def send_register_request(register_data):
+    data = data_mgt.read_json()
+    data["register"]["application_token"] = register_data["application_token"]
+    data["register"]["inference_client_uid"] = register_data["inference_client_uid"]
+    data["register"]["position_uid"] = register_data["position_uid"]
+
     # API endpoint for registration
     registration_endpoint = f"""{data["api_url"]}/certificate"""
 
@@ -59,14 +68,14 @@ def send_register_request(data):
             print("status:", response.status_code, "<application_source_mgt>/<SourceCertificateHandler>/<certificate_issuing>")
             data["certificate_receiver"]["status"] = access_data.get('status')
             data["certificate_receiver"]["certificate"] = access_data.get('certificate')
-            # data = check_identity(data)
         else:
             print("ERROR", response.status_code, "<certificate_issuing> Register")
             data["certificate_receiver"]["status"] = "error"
 
     except Exception as e:
         print(f"Error during registration: {e}")
-    return data
+
+    data_mgt.write_json(data)
 
 
 ## 驗證certificate是否有效
@@ -91,10 +100,6 @@ def check_identity(data):
 
 
 data_mgt = Data_mgt()
-if __name__ == "__main__":
-    data = data_mgt.read_json()
-    receive_certificate = send_register_request(data)
-    data_mgt.write_json(receive_certificate)
     
     
 

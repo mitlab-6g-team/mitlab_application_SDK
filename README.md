@@ -7,18 +7,35 @@
 1. download package:
 
     ```bash
-   git clone https://github.com/mitlab-6g-team/mitlab_application_SDK.git
+   pip install AppAuthN
     
-3. 修改 AppAuthN/config.json 檔案：
+2. 進行註冊
 
-    請確保替换自己的 Application 資訊
-    ### "register": application_token、position_uid 和 inference_client_uid
-    ### "raw_data": application_uid、position_uid、inference_client_uid 和 value
+    ```python
+    #模型
+    import CertificationReceiver as register
+    api = <url>
+    register.kongapi(api)
 
-4. run AppAuthN/InferenceResult.py：
+    register_data = {
+        "application_token": "1234",
+        "position_uid": "6543",
+        "inference_client_uid": "5678"
+    }
+    register.send_register_request(register_data)
 
-   ```bash
-   python3 InferenceResult.py
+3. 進行推論：
+
+   ```python
+    #模型
+    import InferenceResult as inference
+    raw_data = {
+        "application_uid": <application_uid>,
+        "position_uid": <position_uid>,
+        "inference_client_uid": <inference_client_uid>,
+        "value": <value>
+    }
+    inference.send_rawdata(raw_data)
 
 # 注意事项
 
