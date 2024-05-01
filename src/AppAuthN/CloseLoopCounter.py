@@ -27,7 +27,7 @@ def send_closed_loop(data):
         "application_uid": data["closed_loop"]["application_uid"],
         "position_uid": data["closed_loop"]["position_uid"],
         "packet_uid": data["closed_loop"]["packet_uid"],
-        "inference_client_uid": data["closed_loop"]["inference_client_uid"],
+        "inference_client_name": data["closed_loop"]["inference_client_name"],
         "value": data["closed_loop"]["value"]
     }
     # print("Data to be sent:")

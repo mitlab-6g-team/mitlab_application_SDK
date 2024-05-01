@@ -13,14 +13,16 @@
 
     ```python
     #模型
-    import CertificationReceiver as register
-    api = <url>
-    register.kongapi(api)
+    import AppAuthN.CertificationReceiver as register
+    register_api = <url>
+    inference_api = <url>
+    register.kongapi(register_api, inference_api)
 
     register_data = {
-        "application_token": "1234",
-        "position_uid": "6543",
-        "inference_client_uid": "5678"
+        "application_uid": <application_uid>,
+        "application_token": <application_token>,
+        "position_uid": <position_uid>,
+        "inference_client_name": <inference_client_name>,
     }
     register.send_register_request(register_data)
 
@@ -28,11 +30,11 @@
 
    ```python
     #模型
-    import InferenceResult as inference
+    import AppAuthN.InferenceResult as infer
     raw_data = {
         "application_uid": <application_uid>,
         "position_uid": <position_uid>,
-        "inference_client_uid": <inference_client_uid>,
+        "inference_client_name": <inference_client_name>,
         "value": <value>
     }
     inference.send_rawdata(raw_data)

@@ -2,15 +2,16 @@ import hashlib
 import json, os, requests
 import time
 
-def kongapi(api_url):
+def kongapi(api_url_with_register, api_url_with_inference):
     data = data_mgt.read_json()
-    data["api_url"] = api_url
+    data["api_url_with_R"] = api_url_with_register
+    data["api_url_with_I"] = api_url_with_inference
     data_mgt.write_json(data)
 
 ## 驗證certificate.hash
 def generate_hash(data):
     # Combine values into a single string
-    combined_string = f"""{data["register"]["application_token"]}{data["register"]["position_uid"]}{data["register"]["inference_client_uid"]}"""
+    combined_string = f"""{data["register"]["application_token"]}{data["register"]["position_uid"]}{data["register"]["inference_client_name"]}"""
 
     # Create a hash object using SHA-256 (you can choose a different algorithm)
     # Get the hexadecimal representation of the hash
@@ -41,17 +42,19 @@ class Data_mgt:
 ## interact with inference_layer
 def send_register_request(register_data):
     data = data_mgt.read_json()
+    data["register"]["application_uid"] = register_data["application_uid"]
     data["register"]["application_token"] = register_data["application_token"]
-    data["register"]["inference_client_uid"] = register_data["inference_client_uid"]
+    data["register"]["inference_client_name"] = register_data["inference_client_name"]
     data["register"]["position_uid"] = register_data["position_uid"]
 
     # API endpoint for registration
-    registration_endpoint = f"""{data["api_url"]}/certificate"""
+    registration_endpoint = f"""{data["api_url_with_R"]}/certificate"""
 
     # Data to be sent in the POST request
     payload = {
+        "application_uid": data["register"]["application_uid"],
         "application_token": data["register"]["application_token"],
-        "inference_client_uid": data["register"]["inference_client_uid"],
+        "inference_client_name": data["register"]["inference_client_name"],
         "position_uid": data["register"]["position_uid"]
     }
     # print("Data to be sent:")
@@ -61,7 +64,7 @@ def send_register_request(register_data):
         # Make the POST request
         response = requests.post(registration_endpoint, json=payload)
         access_data = response.json()
-        print("response_payload:", access_data)
+        # print("response_payload:", access_data)
 
         # Check the response status code
         if response.status_code == 200:
@@ -84,7 +87,7 @@ def check_identity(data):
         if data["certificate_receiver"]["certificate"][:64] == generate_hash(data):
             if int(data["certificate_receiver"]["certificate"][64:]) >=  int(time.time()):
                 print("certificate is vaild")
-                #print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
+                # print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
             else:
                 print("Timeout, certificate is invaild")
                 data["certificate_receiver"]["status"] = "error"

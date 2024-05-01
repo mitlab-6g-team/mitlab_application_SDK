@@ -1,16 +1,18 @@
 {
-  "api_url": "",
+  "api_url_with_R": "",
+  "api_url_with_I": "",
   "register": {
+    "application_uid": "",
     "application_token": "",
     "position_uid": "",
-    "inference_client_uid": ""
+    "inference_client_name": ""
   },
   "closed_loop": {
     "application_uid": "",
     "position_uid": "",
     "packet_uid": "",
-    "inference_client_uid": "",
-    "value": 0
+    "inference_client_name": "",
+    "value": ""
   },
   "certificate_receiver": {
     "status": "",
@@ -23,8 +25,8 @@
   "raw_data": {
     "application_uid": "",
     "position_uid": "",
-    "packet_uid": "1128",
-    "inference_client_uid": "",
+    "packet_uid": "",
+    "inference_client_name": "",
     "value": ""
   }
 }
