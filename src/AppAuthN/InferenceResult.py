@@ -10,12 +10,15 @@ def send_rawdata(rawdata):
     data["raw_data"]["position_uid"] = rawdata["position_uid"]
     data["raw_data"]["inference_client_name"] = rawdata["inference_client_name"]
     data["raw_data"]["value"] = rawdata["value"]
-    # print("merge_data", data)
+ 
 
     # API endpoint for inference_service
     inference_service_endpoint = f"""{data["api_url_with_I"]}/inference-service-{data["raw_data"]["position_uid"]}"""
-
-    data["raw_data"]["packet_uid"] = str(int(data["raw_data"]["packet_uid"])+1)
+    
+    if (data["raw_data"]["packet_uid"]  == ""):
+        data["raw_data"]["packet_uid"] = 0
+    else:
+        data["raw_data"]["packet_uid"] = str(int(data["raw_data"]["packet_uid"])+1)
     payload = {
         "application_uid": data["raw_data"]["application_uid"],
         "position_uid": data["raw_data"]["position_uid"],
