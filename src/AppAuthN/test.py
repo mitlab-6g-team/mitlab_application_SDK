@@ -55,6 +55,7 @@ def send_rawdata(rawdata):
             data["result_receiver"]["value"] = access_data.get('data')
         else:
             print("ERROR", response.status_code, "<inference_service>")
+            # 拿掉，這樣失效的時候才可以重新註冊
             data["certificate_receiver"]["status"] = "error"
 
     except Exception as e:

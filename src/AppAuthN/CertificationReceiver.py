@@ -89,14 +89,18 @@ def check_identity(data):
                 print("certificate is valid")
                 # print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
             else:
-                print("Timeout, certificate is invalid")
                 data["certificate_receiver"]["status"] = "error"
-                #print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
+                # print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
                 #要測試過期後可不可以自己重新登入
                 send_register_request(data["register"])
         else:
             print("Invalid hash, certificate is invalid")
             data["certificate_receiver"]["status"] = "error"
+            data["certificate_receiver"]["certificate"] = ""
+    elif data["certificate_receiver"]["status"] == "error":
+        print("certificate is invalid")
+        #過期後重新登入
+        send_register_request(data["register"])
     else:
         print("unregister, status error")
         data["certificate_receiver"]["status"] = "error"
