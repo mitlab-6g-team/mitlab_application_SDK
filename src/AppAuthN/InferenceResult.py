@@ -9,6 +9,7 @@ def send_rawdata(rawdata):
     data["raw_data"]["application_uid"] = rawdata["application_uid"]
     data["raw_data"]["position_uid"] = rawdata["position_uid"]
     data["raw_data"]["inference_client_name"] = rawdata["inference_client_name"]
+    data["raw_data"]["multi_input"] = rawdata["multi_input"]
     data["raw_data"]["value"] = rawdata["value"]
  
 
@@ -24,11 +25,13 @@ def send_rawdata(rawdata):
         "position_uid": data["raw_data"]["position_uid"],
         "packet_uid": data["raw_data"]["packet_uid"],
         "inference_client_name": data["raw_data"]["inference_client_name"],
+        "multi_input": data["raw_data"]["multi_input"],
         "value": data["raw_data"]["value"]
     }
     data["closed_loop"]["application_uid"] = data["raw_data"]["application_uid"]
     data["closed_loop"]["position_uid"] = data["raw_data"]["position_uid"]
     data["closed_loop"]["packet_uid"] = data["raw_data"]["packet_uid"]
+    data["closed_loop"]["multi_input"] = data["raw_data"]["multi_input"]
     data["closed_loop"]["inference_client_name"] = data["raw_data"]["inference_client_name"]
     # print("Data to be sent:")
     # print(json.dumps(payload, indent=2))
@@ -39,7 +42,7 @@ def send_rawdata(rawdata):
         response = requests.post(inference_service_endpoint, json=payload)
         # start a timer
         access_data = response.json()
-        print("inference_result:", access_data)
+        # print("inference_result:", access_data)
 
         # Check the response status code
         if response.status_code == 200:
@@ -56,3 +59,4 @@ def send_rawdata(rawdata):
         print(f"Error during registration: {e}")
 
     data_mgt.write_json(data)
+    return data["result_receiver"]

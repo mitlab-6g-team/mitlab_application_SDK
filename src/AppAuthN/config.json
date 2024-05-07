@@ -27,6 +27,7 @@
     "position_uid": "",
     "packet_uid": "",
     "inference_client_name": "",
+    "multi_input": "",
     "value": ""
   }
 }

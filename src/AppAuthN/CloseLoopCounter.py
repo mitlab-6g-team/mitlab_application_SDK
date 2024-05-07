@@ -28,6 +28,7 @@ def send_closed_loop(data):
         "position_uid": data["closed_loop"]["position_uid"],
         "packet_uid": data["closed_loop"]["packet_uid"],
         "inference_client_name": data["closed_loop"]["inference_client_name"],
+        "multi_input": data["closed_loop"]["multi_input"],
         "value": data["closed_loop"]["value"]
     }
     # print("Data to be sent:")
@@ -37,7 +38,7 @@ def send_closed_loop(data):
         # Make the POST request
         response = requests.post(closed_loop_endpoint, json=payload)
         access_data = response.json()
-        print("response_payload:", access_data)
+        # print("response_payload:", access_data)
 
         # Check the response status code
         if response.status_code == 200:
@@ -48,4 +49,3 @@ def send_closed_loop(data):
     except Exception as e:
         print(f"Error during registration: {e}")
     return data
-
