@@ -5,8 +5,8 @@ import uuid
 
 ## send rawdata to inference layer for receiving inference result
 def send_rawdata(rawdata):
+    check_identity(data_mgt.read_json())
     data = data_mgt.read_json()
-    check_identity(data)
 
     new_packet_uid = str(uuid.uuid4())
 
@@ -19,7 +19,7 @@ def send_rawdata(rawdata):
  
 
     # API endpoint for inference_service
-    inference_service_endpoint = f"""{data["api_url_with_I"]}/inference-service-{data["raw_data"]["position_uid"]}"""
+    inference_service_endpoint = f"""{data["api_url"]}/inference-service-{data["raw_data"]["position_uid"]}"""
     
     data["closed_loop"]["packet_uid"] = new_packet_uid
     data["closed_loop"]["application_uid"] = data["raw_data"]["application_uid"]
@@ -55,7 +55,7 @@ def send_rawdata(rawdata):
             data["result_receiver"]["value"] = access_data.get('data')
         else:
             print("ERROR", response.status_code, "<inference_service>")
-            data["certificate_receiver"]["status"] = "error"
+            # data["certificate_receiver"]["status"] = "error"
 
     except Exception as e:
         print(f"Error during registration: {e}")
