@@ -3,16 +3,16 @@ import json, requests
 
 class Counter:
     def __init__(self):
-        self.value = int(time.time())
+        self.value = float(time.time())
 
     def get_value(self):
-        int(time.time())-self.value
+        float(time.time())-self.value
         # print("now.time", int(time.time()), "before.time", self.value)
         # print(int(time.time())-self.value)
-        return (int(time.time())-self.value)
+        return float(time.time())-self.value
 
     def reset(self):
-        self.value = int(time.time())
+        self.value = float(time.time())
 
 # 在這裡創建一個全局計數器變數
 global_counter = Counter()
@@ -20,7 +20,7 @@ global_counter = Counter()
 def send_closed_loop(data):
 
     # API endpoint for closed_loop
-    closed_loop_endpoint = f"""{data["api_url_with_I"]}/closed-loop-{data["closed_loop"]["position_uid"]}"""
+    closed_loop_endpoint = f"""{data["api_url"]}/closed-loop-{data["closed_loop"]["position_uid"]}"""
 
     data["closed_loop"]["value"] = global_counter.get_value()
     payload = {

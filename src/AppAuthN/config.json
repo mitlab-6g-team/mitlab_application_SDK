@@ -1,6 +1,5 @@
 {
-  "api_url_with_R": "",
-  "api_url_with_I": "",
+  "api_url": "",
   "register": {
     "application_uid": "",
     "application_token": "",
@@ -12,7 +11,8 @@
     "position_uid": "",
     "packet_uid": "",
     "inference_client_name": "",
-    "value": ""
+    "value": "",
+    "multi_input": false
   },
   "certificate_receiver": {
     "status": "",

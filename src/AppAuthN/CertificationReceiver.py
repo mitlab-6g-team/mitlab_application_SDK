@@ -2,10 +2,9 @@ import hashlib
 import json, os, requests
 import time
 
-def kongapi(api_url_with_register, api_url_with_inference):
+def kongapi(api_url):
     data = data_mgt.read_json()
-    data["api_url_with_R"] = api_url_with_register
-    data["api_url_with_I"] = api_url_with_inference
+    data["api_url"] = api_url
     data_mgt.write_json(data)
 
 ## 驗證certificate.hash
@@ -48,7 +47,7 @@ def send_register_request(register_data):
     data["register"]["position_uid"] = register_data["position_uid"]
 
     # API endpoint for registration
-    registration_endpoint = f"""{data["api_url_with_R"]}/certificate"""
+    registration_endpoint = f"""{data["api_url"]}/certificate"""
 
     # Data to be sent in the POST request
     payload = {
@@ -83,24 +82,19 @@ def send_register_request(register_data):
 
 ## 驗證certificate是否有效
 def check_identity(data):
+    
     if data["certificate_receiver"]["status"] == "success":
         if data["certificate_receiver"]["certificate"][:64] == generate_hash(data):
             if int(data["certificate_receiver"]["certificate"][64:]) >=  int(time.time()):
                 print("certificate is valid")
                 # print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
             else:
+                print("Timeout, certificate is invalid")
                 data["certificate_receiver"]["status"] = "error"
-                # print("the diff between timeout_timestamp and current_time:", int(data["certificate_receiver"]["certificate"][64:]) - int(time.time()))
-                #要測試過期後可不可以自己重新登入
                 send_register_request(data["register"])
         else:
             print("Invalid hash, certificate is invalid")
             data["certificate_receiver"]["status"] = "error"
-            data["certificate_receiver"]["certificate"] = ""
-    elif data["certificate_receiver"]["status"] == "error":
-        print("certificate is invalid")
-        #過期後重新登入
-        send_register_request(data["register"])
     else:
         print("unregister, status error")
         data["certificate_receiver"]["status"] = "error"
