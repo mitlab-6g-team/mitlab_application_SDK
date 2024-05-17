@@ -27,8 +27,6 @@ def send_rawdata(rawdata):
     data["closed_loop"]["packet_uid"] = data["raw_data"]["packet_uid"]
     data["closed_loop"]["multi_input"] = data["raw_data"]["multi_input"]
     data["closed_loop"]["inference_client_name"] = data["raw_data"]["inference_client_name"]
-    # print("Data to be sent:")
-    # print(json.dumps(payload, indent=2))
 
     payload = {
         "application_uid": data["raw_data"]["application_uid"],
@@ -45,14 +43,13 @@ def send_rawdata(rawdata):
         response = requests.post(inference_service_endpoint, json=payload)
         # start a timer
         access_data = response.json()
-        # print("inference_result:", access_data)
 
         # Check the response status code
         if response.status_code == 200:
             data = send_closed_loop(data)
             print("status:", response.status_code, "<inference_exe>/<InferenceServiceHandler>/<inference_service>")
             data["result_receiver"]["status"] = access_data.get('status')
-            data["result_receiver"]["value"] = access_data.get('data')
+            data["result_receiver"]["value"] = access_data.get('value')
         else:
             print("ERROR", response.status_code, "<inference_service>")
             # data["certificate_receiver"]["status"] = "error"

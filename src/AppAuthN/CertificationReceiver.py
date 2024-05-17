@@ -15,7 +15,6 @@ def generate_hash(data):
     # Create a hash object using SHA-256 (you can choose a different algorithm)
     # Get the hexadecimal representation of the hash
     hash_value = hashlib.sha256(combined_string.encode()).hexdigest()
-    #print("local_hash_value:", hash_value)
     return hash_value
 
 
@@ -56,14 +55,11 @@ def send_register_request(register_data):
         "inference_client_name": data["register"]["inference_client_name"],
         "position_uid": data["register"]["position_uid"]
     }
-    # print("Data to be sent:")
-    # print(json.dumps(payload, indent=2))
 
     try:
         # Make the POST request
         response = requests.post(registration_endpoint, json=payload)
         access_data = response.json()
-        # print("response_payload:", access_data)
 
         # Check the response status code
         if response.status_code == 200:

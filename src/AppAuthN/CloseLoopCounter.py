@@ -7,8 +7,6 @@ class Counter:
 
     def get_value(self):
         float(time.time())-self.value
-        # print("now.time", int(time.time()), "before.time", self.value)
-        # print(int(time.time())-self.value)
         return float(time.time())-self.value
 
     def reset(self):
@@ -31,14 +29,11 @@ def send_closed_loop(data):
         "multi_input": data["closed_loop"]["multi_input"],
         "value": data["closed_loop"]["value"]
     }
-    # print("Data to be sent:")
-    # print(json.dumps(payload, indent=2))
 
     try:
         # Make the POST request
         response = requests.post(closed_loop_endpoint, json=payload)
         access_data = response.json()
-        # print("response_payload:", access_data)
 
         # Check the response status code
         if response.status_code == 200:
