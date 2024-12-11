@@ -18,7 +18,7 @@ global_counter = Counter()
 def send_closed_loop(data):
 
     # API endpoint for closed_loop
-    closed_loop_endpoint = f"""{data["api_url"]}/closed-loop-{data["closed_loop"]["position_uid"]}"""
+    closed_loop_endpoint = f"""{data["api_url"]}/entrypoint/closed_loop/{data["closed_loop"]["position_uid"]}"""
 
     data["closed_loop"]["value"] = global_counter.get_value()
     payload = {
@@ -26,7 +26,6 @@ def send_closed_loop(data):
         "position_uid": data["closed_loop"]["position_uid"],
         "packet_uid": data["closed_loop"]["packet_uid"],
         "inference_client_name": data["closed_loop"]["inference_client_name"],
-        "multi_input": data["closed_loop"]["multi_input"],
         "value": data["closed_loop"]["value"]
     }
 

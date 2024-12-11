@@ -14,17 +14,15 @@ def send_rawdata(rawdata):
     data["raw_data"]["application_uid"] = rawdata["application_uid"]
     data["raw_data"]["position_uid"] = rawdata["position_uid"]
     data["raw_data"]["inference_client_name"] = rawdata["inference_client_name"]
-    data["raw_data"]["multi_input"] = rawdata["multi_input"]
     data["raw_data"]["value"] = rawdata["value"]
  
 
     # API endpoint for inference_service
-    inference_service_endpoint = f"""{data["api_url"]}/inference-service-{data["raw_data"]["position_uid"]}"""
+    inference_service_endpoint = f"""{data["api_url"]}/entrypoint/inference_service/{data["raw_data"]["position_uid"]}"""
     
     data["closed_loop"]["packet_uid"] = new_packet_uid
     data["closed_loop"]["application_uid"] = data["raw_data"]["application_uid"]
     data["closed_loop"]["position_uid"] = data["raw_data"]["position_uid"]
-    data["closed_loop"]["packet_uid"] = data["raw_data"]["packet_uid"]
     data["closed_loop"]["multi_input"] = data["raw_data"]["multi_input"]
     data["closed_loop"]["inference_client_name"] = data["raw_data"]["inference_client_name"]
 
@@ -33,7 +31,6 @@ def send_rawdata(rawdata):
         "position_uid": data["raw_data"]["position_uid"],
         "packet_uid": data["raw_data"]["packet_uid"],
         "inference_client_name": data["raw_data"]["inference_client_name"],
-        "multi_input": data["raw_data"]["multi_input"],
         "value": data["raw_data"]["value"]
     }
 

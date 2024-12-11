@@ -1,9 +1,6 @@
-Metadata-Version: 1.2
+Metadata-Version: 2.1
 Name: AppAuthN
-Version: 1.0.2
-Summary: UNKNOWN
-Home-page: UNKNOWN
-License: UNKNOWN
-Description: UNKNOWN
-Platform: UNKNOWN
+Version: 2.0.2
 Requires-Python: >=3
+License-File: LICENSE
+Requires-Dist: requests
