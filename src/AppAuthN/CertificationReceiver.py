@@ -2,7 +2,7 @@ import hashlib
 import json, os, requests
 import time
 
-def kongapi(api_url):
+def inference_gateway(api_url):
     data = data_mgt.read_json()
     data["api_url"] = api_url
     data_mgt.write_json(data)
@@ -15,7 +15,6 @@ def generate_hash(data):
     # Create a hash object using SHA-256 (you can choose a different algorithm)
     # Get the hexadecimal representation of the hash
     hash_value = hashlib.sha256(combined_string.encode()).hexdigest()
-    #print("local_hash_value:", hash_value)
     return hash_value
 
 
@@ -47,7 +46,7 @@ def send_register_request(register_data):
     data["register"]["position_uid"] = register_data["position_uid"]
 
     # API endpoint for registration
-    registration_endpoint = f"""{data["api_url"]}/certificate"""
+    registration_endpoint = f"""{data["api_url"]}/entrypoint/authentication/{register_data["position_uid"]}"""
 
     # Data to be sent in the POST request
     payload = {
@@ -56,14 +55,11 @@ def send_register_request(register_data):
         "inference_client_name": data["register"]["inference_client_name"],
         "position_uid": data["register"]["position_uid"]
     }
-    # print("Data to be sent:")
-    # print(json.dumps(payload, indent=2))
 
     try:
         # Make the POST request
         response = requests.post(registration_endpoint, json=payload)
         access_data = response.json()
-        # print("response_payload:", access_data)
 
         # Check the response status code
         if response.status_code == 200:

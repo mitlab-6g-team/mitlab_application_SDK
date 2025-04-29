@@ -14,9 +14,8 @@
     ```python
     #模型
     import AppAuthN.CertificationReceiver as register
-    register_api = <url>
-    inference_api = <url>
-    register.kongapi(register_api, inference_api)
+    api_url = <api_url>
+    register.inference_gateway(api_url)
 
     register_data = {
         "application_uid": <application_uid>,
@@ -30,7 +29,7 @@
 
    ```python
     #模型
-    import AppAuthN.InferenceResult as infer
+    import AppAuthN.InferenceResult as inference
     raw_data = {
         "application_uid": <application_uid>,
         "position_uid": <position_uid>,

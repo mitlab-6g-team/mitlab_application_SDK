@@ -6,7 +6,6 @@ src/AppAuthN/CloseLoopCounter.py
 src/AppAuthN/InferenceResult.py
 src/AppAuthN/__init__.py
 src/AppAuthN/config.json
-src/AppAuthN/test.py
 src/AppAuthN.egg-info/PKG-INFO
 src/AppAuthN.egg-info/SOURCES.txt
 src/AppAuthN.egg-info/dependency_links.txt
